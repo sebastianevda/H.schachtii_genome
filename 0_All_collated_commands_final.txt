@@ -1,0 +1,291 @@
+
+#base assembly from wtdbg2 Version: 2.1 - 20181007 -L 5000 -p 19  -AS2 using Canu snapshot v1.7 +137 changes (r8829 73d5caa1b1087b65f7853ecbebc1bb1dcbd1bc14) error corrected reads (corOutCoverage=300 corMhapSensitivity=normal):
+Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa
+
+---------------------------------------------------------------------------------
+purge haplotigs:
+---------------------------------------------------------------------------------
+
+#purge haplotigs
+#!/bin/bash
+#raw_reads /home/bioinf/se389/raw_data/H_scha_all_four_cells_cat.fq
+cd /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70
+wait
+/home/bioinf/se389/programs/minimap2/minimap2 -ax map-pb /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa /home/bioinf/se389/raw_data/H_scha_all_four_cells_cat.fq > /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/aln.sam
+wait
+samtools view -@ 4 -S -b -o /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/aln.sam.bam /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/aln.sam
+wait
+samtools sort /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/aln.sam.bam -o /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/aln.sam.sorted.bam
+wait
+samtools index /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/aln.sam.sorted.bam
+wait
+/home/bioinf/se389/programs/purge_haplotigs/bin/purge_haplotigs readhist aln.sam.sorted.bam -g ../Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa -t 48
+
+[09-11-2018 08:22:47] INFO: 
+Beginning Pipeline
+
+PARAMETERS:
+Genome fasta:           Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa
+Coverage csv:           coverage_stats.csv
+Bam file:               aln.sam.sorted.bam
+Threads:                24
+Cutoff, alignment:      70 %
+Cutoff, repeat:         250 %
+Cutoff, suspect:        40 %
+Out prefix:             curated
+Coverage window len:    9000 bp
+Window step dist:       3000 bp
+Blastn parameters:      -evalue 0.00001 -max_target_seqs 50 -max_hsps 1000 -word_size 28 -culling_limit 10
+Lastz paramters:        --gfextend --chain --gapped --seed=match14 --allocate:traceback=200.0M
+
+Running using command:
+purge_haplotigs purge -g Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa -c coverage_stats.csv -b aln.sam.sorted.bam -t 24 -a 70
+
+
+[09-11-2018 08:22:47] RUNNING: samtools faidx Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa 2> tmp_purge_haplotigs/STDERR/samtools.faidx.stderr
+[09-11-2018 08:22:48] FINISHED: samtools faidx Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa 2> tmp_purge_haplotigs/STDERR/samtools.faidx.stderr
+[09-11-2018 08:22:48] INFO: reading in genome index file: Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.fai
+[09-11-2018 08:22:48] INFO: reading in contig coverage stats file: coverage_stats.csv
+[09-11-2018 08:22:48] INFO: "mincing" genome
+[09-11-2018 08:22:52] INFO: Getting windowed read depth coverage for each contig
+[09-11-2018 08:22:52] RUNNING: bedtools makewindows -g Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.fai -w 9000 -s 3000 > tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.windows.bed.tmp 2> tmp_purge_haplotigs/STDERR/bedtools.mkwind.stderr  &&  mv tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.windows.bed.tmp tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.windows.bed
+[09-11-2018 08:22:52] FINISHED: bedtools makewindows -g Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.fai -w 9000 -s 3000 > tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.windows.bed.tmp 2> tmp_purge_haplotigs/STDERR/bedtools.mkwind.stderr  &&  mv tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.windows.bed.tmp tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.windows.bed
+[09-11-2018 08:22:52] RUNNING: bedtools multicov -bams aln.sam.sorted.bam -bed tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.windows.bed > tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.mcov.tmp 2> tmp_purge_haplotigs/STDERR/bedtools.mcov.stderr  &&  mv tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.mcov.tmp tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.mcov
+[09-11-2018 10:08:14] FINISHED: bedtools multicov -bams aln.sam.sorted.bam -bed tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.windows.bed > tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.mcov.tmp 2> tmp_purge_haplotigs/STDERR/bedtools.mcov.stderr  &&  mv tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.mcov.tmp tmp_purge_haplotigs/COV/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta.gz2_MIN5000.ctg.p19-AS2_L5000.lay.fa.mcov
+[09-11-2018 10:08:17] INFO: preparing blastdb
+[09-11-2018 10:08:32] RUNNING: makeblastdb -in tmp_purge_haplotigs/assembly.fasta -dbtype nucl -out tmp_purge_haplotigs/BLASTDB/assembly 2>&1 1> tmp_purge_haplotigs/STDERR/makeblastdb.stderr
+[09-11-2018 10:08:34] FINISHED: makeblastdb -in tmp_purge_haplotigs/assembly.fasta -dbtype nucl -out tmp_purge_haplotigs/BLASTDB/assembly 2>&1 1> tmp_purge_haplotigs/STDERR/makeblastdb.stderr
+[09-11-2018 10:08:34] INFO: Performing blastn hit search
+[09-11-2018 10:27:03] INFO: Finished blastn hit search
+[09-11-2018 10:27:03] INFO: preparing blastn hit summary
+[09-11-2018 10:57:31] INFO: 
+
+###
+
+RUNNING PURGING PASS 1
+
+###
+
+[09-11-2018 10:57:31] INFO: getting contig hits from blastn output
+[09-11-2018 10:57:34] INFO: Running lastz analysis on blastn hits
+[09-11-2018 12:23:18] INFO: Checking contig assignments for conflicts
+[09-11-2018 12:23:18] INFO: conflict: ctg1017 and it's match ctg2262 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg1017
+[09-11-2018 12:23:18] INFO: conflict: ctg1192 and it's match ctg465 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg465
+[09-11-2018 12:23:18] INFO: conflict: ctg1748 and it's match ctg2140 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping haplotig ctg1748, removing repeat ctg2140
+[09-11-2018 12:23:18] INFO: conflict: ctg2022 and it's match ctg3202 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg2022
+[09-11-2018 12:23:18] INFO: conflict: ctg2157 and it's match ctg2754 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg2157
+[09-11-2018 12:23:18] INFO: conflict: ctg2249 and it's match ctg3075 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg2249
+[09-11-2018 12:23:18] INFO: conflict: ctg2726 and it's match ctg2865 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg2726
+[09-11-2018 12:23:18] INFO: conflict: ctg2931 and it's match ctg2498 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg2498
+[09-11-2018 12:23:18] INFO: conflict: ctg2949 and it's match ctg2170 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg2170
+[09-11-2018 12:23:18] INFO: conflict: ctg3103 and it's match ctg1005 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping haplotig ctg3103, removing repeat ctg1005
+[09-11-2018 12:23:18] INFO: conflict: ctg3222 and it's match ctg3536 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg3222
+[09-11-2018 12:23:18] INFO: conflict: ctg3324 and it's match ctg2800 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg2800
+[09-11-2018 12:23:18] INFO: conflict: ctg3358 and it's match ctg3549 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg3358
+[09-11-2018 12:23:18] INFO: conflict: ctg3380 and it's match ctg2689 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer repeat contig ctg2689, removing repeat ctg3380
+[09-11-2018 12:23:18] INFO: conflict: ctg3542 and it's match ctg1572 both flagged for reassignment
+[09-11-2018 12:23:18] INFO: 	keeping longer contig ctg1572
+[09-11-2018 12:23:18] INFO: Logging reassignments and checking for convergence
+[09-11-2018 12:31:13] INFO: convergence not reached, more passes needed
+[09-11-2018 12:31:13] INFO: 
+
+###
+
+RUNNING PURGING PASS 2
+
+###
+
+[09-11-2018 12:31:13] INFO: getting contig hits from blastn output
+[09-11-2018 12:31:16] INFO: Running lastz analysis on blastn hits
+[09-11-2018 13:44:22] INFO: Checking contig assignments for conflicts
+[09-11-2018 13:44:22] INFO: Logging reassignments and checking for convergence
+[09-11-2018 13:44:50] INFO: convergence not reached, more passes needed
+[09-11-2018 13:44:50] INFO: 
+
+###
+
+RUNNING PURGING PASS 3
+
+###
+
+[09-11-2018 13:44:50] INFO: getting contig hits from blastn output
+[09-11-2018 13:44:54] INFO: Running lastz analysis on blastn hits
+[09-11-2018 16:01:46] INFO: Checking contig assignments for conflicts
+[09-11-2018 16:01:46] INFO: Logging reassignments and checking for convergence
+[09-11-2018 16:01:46] INFO: convergence reached!
+[09-11-2018 16:01:46] INFO: 
+
+###
+
+GENERATING OUTPUT
+
+###
+
+[09-11-2018 16:01:46] INFO: writing contig association paths
+[09-11-2018 16:01:46] INFO: writing the reassignment table and new assembly files
+[09-11-2018 16:38:34] INFO: 
+
+###
+
+PURGE HAPLOTIGS HAS COMPLETED SUCCESSFULLY!
+
+###
+
+
+
+---------------------------------------------------------------------------------
+finisher:
+---------------------------------------------------------------------------------
+must take the raw_reads.fasta file, and the contigs.fasta in the folder you are in
+
+perl -pe 's/>[^\$]*$/">Seg" . ++$n ."\n"/ge' raw_reads.fasta > newRaw_reads.fasta
+cp newRaw_reads.fasta raw_reads.fasta
+perl -pe 's/>[^\$]*$/">Seg" . ++$n ."\n"/ge' contigs.fasta > newContigs.fasta
+cp newContigs.fasta contigs.fasta
+
+#!/bin/bash
+cd /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/
+wait
+/usr/bin/python /home/bioinf/se389/programs/finishingTool/finisherSC.py /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/ /home/bioinf/se389/programs/mummer-4.0.0beta2/
+
+
+---------------------------------------------------------------------------------
+Scaffolding:
+---------------------------------------------------------------------------------
+Then 2 rounds of SSPACE_longreads with the trimmed reads with a gap filler inbetween
+
+#!/bin/bash
+cd /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/10_1000_g500
+wait
+perl /home_old/se389/programs/SSPACE-LongRead_v1-1/SSPACE-LongRead.pl -c /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/improved3.fasta -p /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta -b /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/10_1000_g500/outputfolder -t 48 -k 1 -o 1000 -l 10 -g 500
+
+then gapfiller script - installing was a pain - only works with so it only works with MCR v.7.17 which stdvs download the R2012a - unzip it on linux not window (that took a while to work out..)  edit the installer_input.txt (this is where you put accept the licence stuff on this versuin) chmod everything, then run ./install -inputFile installer_input.txt -tmpdir tmp/   
+
+-m /home_old/se389/programs/MCR_R2012a_glnxa64_installer/folder/v717
+
+Usage: gapFinisher -i <PATH_TO_SSPACE_LONGREAD_OUTPUT_FOLDER> -l <PATH_TO_SSPACE_LONG_READS_FASTA> -m <MCR_location> -t <NUM_THREADS>
+
+
+
+round2 - slightly less stringent here for second round.
+cd /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/10_1000_g500/outputfolder/SSPACE_trimmed_1000_g500/5
+wait
+perl /home_old/se389/programs/SSPACE-LongRead_v1-1/SSPACE-LongRead.pl -c /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/10_1000_g500/outputfolder/scaffolds_gapfilled_FINAL.fasta -p /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/Hsac_all_data_300X_CMAPSEN_normal.correctedReads.fasta -b /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/10_1000_g500/outputfolder/SSPACE_trimmed_1000_g500/5/outputfolder -t 48 -k 1 -o 1000 -l 5
+
+gapFinisher -i <PATH_TO_SSPACE_LONGREAD_OUTPUT_FOLDER> -l <PATH_TO_SSPACE_LONG_READS_FASTA> -m <MCR_location> -t <NUM_THREADS>
+
+
+
+then a final round 3 but this time with raw reads, and more stringent:
+
+#!/bin/bash
+cd /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/10_1000_g500/outputfolder/SSPACE_trimmed_1000_g500/5/outputfolder/SSPACE_round_3_raw/30
+wait
+perl /home_old/se389/programs/SSPACE-LongRead_v1-1/SSPACE-LongRead.pl -c /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/10_1000_g500/outputfolder/SSPACE_trimmed_1000_g500/5/outputfolder/scaffolds_gapfilled_FINAL.fasta -p /home_old/se389/raw_data/H_scha_all_four_cells_cat.fq -b /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/10_1000_g500/outputfolder/SSPACE_trimmed_1000_g500/5/outputfolder/SSPACE_round_3_raw/30/outputfolder -t 48 -k 1 -o 1000 -l 30
+
+gapFinisher -i <PATH_TO_SSPACE_LONGREAD_OUTPUT_FOLDER> -l <PATH_TO_SSPACE_LONG_READS_FASTA> -m <MCR_location> -t <NUM_THREADS>
+
+
+---------------------------------------------------------------------------------
+Correction:
+---------------------------------------------------------------------------------
+
+#3 rounds of arrow
+
+#!/bin/bash
+cd /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/10_1000_g500/outputfolder/SSPACE_trimmed_1000_g500/5/outputfolder/SSPACE_round_3_raw/30/outputfolder/arrow_sub
+wait
+/applications/smrtlink/smrtcmds/bin/samtools sort --threads 32 -m 6G -o sorted_reads.bam reads.bam
+wait
+/applications/smrtlink/smrtcmds/bin/samtools index sorted_reads.bam
+wait
+/applications/smrtlink/smrtcmds/bin/pbindex sorted_reads.bam
+wait
+samtools faidx scaffolds_gapfilled_FINAL.fasta
+wait
+singularity run --app arrow /home_old/se389/FALCON-integrate/FALCON-examples/greg200k-sv2.2/flow_cells_1_2_3_and_4_auto_100_170/2-asm-falcon/test_arrow_mapping/smrt-tools.img sorted_reads.bam --diploid --log-file miniarrow.log -j 48 --referenceFilename scaffolds_gapfilled_FINAL.fasta -o out.arrow1.fasta -o out.arrow1.gff -o out.arrow1.fastq
+wait
+cd /home_old/se389/asssemblies/test_assemblies_from_pete/genomes_for_seb/genomes_of_interest_08th_nov/300x/purge_a70/finisher/SSPACE_trimmed_reads/10_1000_g500/outputfolder/SSPACE_trimmed_1000_g500/5/outputfolder/SSPACE_round_3_raw/30/outputfolder/arrow_sub/2
+wait
+cp ../out.arrow1.fasta .
+
+
+#then 5 rounds of Pilon
+#!/bin/bash
+
+conda activate pilon
+
+cd /home_old/se389/asssemblies/final_assembly_schachtii_pilon/
+
+
+mkdir /home_old/se389/asssemblies/final_assembly_schachtii_pilon/2
+wait
+cd /home_old/se389/asssemblies/final_assembly_schachtii_pilon/2
+wait
+/home/bioinf/se389/programs/minimap2/minimap2 -t 48 -ax map-pb ../out.arrow3.reformat_1.fasta /home/bioinf/se389/raw_data/H_scha_all_four_cells_cat.fq > pb_reads.sam
+wait
+samtools view -Sb pb_reads.sam > pb_reads.bam
+wait
+rm pb_reads.sam
+wait
+/applications/smrtlink/smrtcmds/bin/samtools sort --threads 48 -m 6G -o pb_reads.sorted.bam pb_reads.bam
+wait
+rm pb_reads.bam
+wait
+/applications/smrtlink/smrtcmds/bin/samtools index pb_reads.sorted.bam
+wait
+bwa index ../out.arrow3.reformat_1.fasta
+wait
+bwa mem -t 48 ../out.arrow3.reformat_1.fasta /home_old/se389/raw_data/h_scha_illumina_DNA_seq/C101HW18092708/raw_data/H_scha_DNA_2/H_scha_DNA_2_DDPL02848_HTHLCCCXY_cat_trim_pair_1.fq /home_old/se389/raw_data/h_scha_illumina_DNA_seq/C101HW18092708/raw_data/H_scha_DNA_2/H_scha_DNA_2_DDPL02848_HTHLCCCXY_cat_trim_pair_2.fq > il_reads.sam
+wait
+samtools view -Sb il_reads.sam > il_reads.bam
+wait
+rm il_reads.sam
+wait
+/applications/smrtlink/smrtcmds/bin/samtools sort --threads 48 -m 6G -o il_reads.sorted.bam il_reads.bam
+wait
+rm il_reads.bam
+wait
+/applications/smrtlink/smrtcmds/bin/samtools index il_reads.sorted.bam
+wait
+# this has been through one iteration. Now use the ouput from this iteration for the new error correction. 
+pilon --genome ../out.arrow3.reformat_1.fasta --bam il_reads.sorted.bam --pacbio pb_reads.sorted.bam --changes --vcf --diploid --threads 48 --output out.arrow3.reformat_2
+
+#During initial phases of gene prediction on assembly version 1.1, it was noted when mapping RNAseq to the assembly that some SNPs in genes (often, but not always, A|G polymorphisms) were miscalled as adjacent indels (therefore altering the translation frame and negatively affecting gene calls).
+#Mapped Illumina RNAseq reads using STAR (default) was used to run pilon for VCF
+#!/bin/bash
+cd /home_old/se389/asssemblies/H_schachtii_1.1/mapped_bams_for_gene_calls/pilon_for_vcf
+wait
+samtools index merged.sorted.bam
+wait
+pilon --genome Cam_Hsc_genome1.1.fa --bam merged.sorted.bam --changes --vcf --diploid --threads 48 --output pilon.out --fix snps,indels --tracks
+
+#This vcf was then parsed with a custom python script to find adjacent polymorphisms up to 4 bp apart
+7_script_for_4bp_apart_indels_working-parse_vcf_to_find_those_that_need_manual_edits.py
+
+All parsed SNPs were fixed maually on apollo and then the gffs from apollo exported, concatenated, and a custom python script was used to updated the genome giving rise to the final polished assembly.
+parse_GFF_of_changes_to_new_genome.py
+
+
+
+
+
+
+
+
+
+
