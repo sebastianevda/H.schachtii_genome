@@ -1,7 +1,7 @@
 vcf_file = "cat.sorted.gff"
 #requires a gff format of the output as exported by apollo but sorted by scaf (smallest first), then location (largest first) 
 
-fasta_file = "Cam_Hsc_genome1.1.fa"
+fasta_file = "Cam_Hsc_genome1.1_349.fa"
 
 output_filename = "new_fasta_file.fa"
 
