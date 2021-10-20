@@ -64,7 +64,7 @@ for entry in list_of_flags_split:
     if len(entry)>0:
         testint = int(entry)
         #print (entry)
-        if testint is 2:
+        if testint == 2:
             #print (entry)
             final_output = final_output + splitrep[count] + "\n"
         count = count + 1
