@@ -23,7 +23,7 @@ Instructions to run on data
 Expected output
 output_filename = "mcl_level4.txt.counts" convery the mcl_lvl.txt file into a counts per species tab file.
 Expected run time for demo on a "normal" desktop computer
-10 minutes
+24 hours
 
 4. Instructions for use
 Install python, run script in same directory as input files.
